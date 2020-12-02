@@ -27,14 +27,15 @@ def handle_file(client_socket, addr):
     print(f"[+] {addr} is connected.")
     received = client_socket.recv(BUFFER_SIZE).decode()
     filename, filesize = received.split(SEPARATOR)
-    filename = os.path.basename(filename)  # remove absolute path
+    filename = os.path.basename(filename) # remove absolute path      
     filesize = int(filesize)
 
     # progress bar using tqdm
     # receive file
     progress = tqdm.tqdm(range(
         filesize), f"Receiving {filename}", unit="b", unit_scale=True, unit_divisor=1024)
-    with open(r"D:\save\\"+filename, "wb") as f:
+    with open(r"D:/save//"+filename, "wb") as f:
+    # with open(r"/tmp/test/save//"+filename, "wb") as f:
         for i in progress:
             bytes_read = client_socket.recv(BUFFER_SIZE)
             if not bytes_read:
