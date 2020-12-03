@@ -5,8 +5,8 @@ import os
 
 SEPARATOR = "<SEPARATOR>"
 BUFFER_SIZE = 4096
-# HOST = "10.80.1.20"
-HOST = socket.gethostbyname(socket.gethostname())
+HOST = "10.80.1.20"
+# HOST = socket.gethostbyname(socket.gethostname())
 def sendfile(filename, PORT):
     filesize = os.path.getsize(filename)
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -47,8 +47,8 @@ def port_setting(PORT, filename=None, msg=None):
 
 
 def main():
-    port_setting(8000, filename=r'C:/Users/chi.lin/Desktop/work2/123.png')
-    port_setting(8001, msg="test hello")
+    port_setting(8000, filename=r'C:/Users/chi.lin/Desktop/work2/2020-11-20_134018_Log.7z')
+    # port_setting(8001, msg="test hello")
 
 
 if __name__ == "__main__":

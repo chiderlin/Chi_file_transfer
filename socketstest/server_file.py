@@ -2,6 +2,8 @@ import socket
 import os
 import tqdm
 import threading
+import py7zr
+import re
 
 SEPARATOR = "<SEPARATOR>"
 BUFFER_SIZE = 4096
@@ -34,6 +36,7 @@ def handle_file(client_socket, addr):
     # receive file
     progress = tqdm.tqdm(range(
         filesize), f"Receiving {filename}", unit="b", unit_scale=True, unit_divisor=1024)
+
     with open(r"D:/save//"+filename, "wb") as f:
     # with open(r"/tmp/test/save//"+filename, "wb") as f:
         for i in progress:
@@ -42,7 +45,22 @@ def handle_file(client_socket, addr):
                 break
             f.write(bytes_read)
             progress.update(len(bytes_read))  # update progress bar
+    if ".7z" in filename:
+        save = "D:/save/"+filename
+        # save = "/tmp/test/save/"+filename
+        unzip(save)
+        os.remove(save)
+
     client_socket.send("File received".encode())
+
+
+
+def unzip(filename):
+    with py7zr.SevenZipFile(f'{filename}', mode='r') as z:
+        z.extractall(path="D:/save/")
+        # z.extractall(path="/tmp/test/save/")
+
+
 
 # client_socket.close()
 # server.close()
