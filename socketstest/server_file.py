@@ -5,6 +5,7 @@ import threading
 import py7zr
 import re
 
+
 SEPARATOR = "<SEPARATOR>"
 BUFFER_SIZE = 4096
 HOST = socket.gethostbyname(socket.gethostname())
@@ -12,7 +13,8 @@ PORT = 8000
 # IPv4, TCP (Default)
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((HOST, PORT))
-
+path="D:/save/"
+# path="/tmp/test/save/"
 
 def start():
     server.listen()
@@ -37,8 +39,7 @@ def handle_file(client_socket, addr):
     progress = tqdm.tqdm(range(
         filesize), f"Receiving {filename}", unit="b", unit_scale=True, unit_divisor=1024)
 
-    with open(r"D:/save//"+filename, "wb") as f:
-    # with open(r"/tmp/test/save//"+filename, "wb") as f:
+    with open(path+filename, "wb") as f:
         for i in progress:
             bytes_read = client_socket.recv(BUFFER_SIZE)
             if not bytes_read:
@@ -46,8 +47,7 @@ def handle_file(client_socket, addr):
             f.write(bytes_read)
             progress.update(len(bytes_read))  # update progress bar
     if ".7z" in filename:
-        save = "D:/save/"+filename
-        # save = "/tmp/test/save/"+filename
+        save = path+filename
         unzip(save)
         os.remove(save)
 
@@ -57,8 +57,8 @@ def handle_file(client_socket, addr):
 
 def unzip(filename):
     with py7zr.SevenZipFile(f'{filename}', mode='r') as z:
-        z.extractall(path="D:/save/")
-        # z.extractall(path="/tmp/test/save/")
+        z.extractall(path=path)
+
 
 
 
