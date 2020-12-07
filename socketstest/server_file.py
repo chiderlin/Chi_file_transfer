@@ -13,8 +13,8 @@ PORT = 8000
 # IPv4, TCP (Default)
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((HOST, PORT))
-path="D:/save/"
-# path="/tmp/test/save/"
+# path="D:/save/"
+path="/tmp/test/save/"
 
 def start():
     server.listen()
@@ -29,15 +29,15 @@ def start():
 
 def handle_file(client_socket, addr):
     print(f"[+] {addr} is connected.")
-    received = client_socket.recv(BUFFER_SIZE).decode()
+    received = client_socket.recv(BUFFER_SIZE).decode('iso8859-1')
     filename, filesize = received.split(SEPARATOR)
     filename = os.path.basename(filename) # remove absolute path      
-    filesize = int(filesize)
+    # filesize = int(filesize) #
 
     # progress bar using tqdm
     # receive file
     progress = tqdm.tqdm(range(
-        filesize), f"Receiving {filename}", unit="b", unit_scale=True, unit_divisor=1024)
+        51951), f"Receiving {filename}", unit="b", unit_scale=True, unit_divisor=1024)
 
     with open(path+filename, "wb") as f:
         for i in progress:
@@ -56,7 +56,7 @@ def handle_file(client_socket, addr):
 
 
 def unzip(filename):
-    with py7zr.SevenZipFile(f'{filename}', mode='r') as z:
+    with py7zr.SevenZipFile(filename, mode='r') as z:
         z.extractall(path=path)
 
 

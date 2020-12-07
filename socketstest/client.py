@@ -25,6 +25,8 @@ def sendfile(filename, PORT):
 
             client.sendall(bytes_read)
             progress.update(len(bytes_read))
+    import time
+    time.sleep(1)
     client.close()
 
 
